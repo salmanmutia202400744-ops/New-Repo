@@ -5,7 +5,12 @@ const userRoutes = require("./routes/users");
 const flightRoutes = require("./routes/flights");
 const bookingRoutes = require("./routes/bookings");
 const dashboardRoutes = require("./routes/dashboard");
+const authRoutes = require("./routes/auth");
 
+app.use("/api/flights", flightsRouter);
+app.use("/api/bookings", bookingsRouter);
+app.use("/api/dashboard", dashboardRouter);
+app.use("/api/auth", authRoutes);
 const app = express();
 
 app.use(cors());
