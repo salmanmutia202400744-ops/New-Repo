@@ -61,12 +61,59 @@ const flights = [
 const bookings = [
   {
     id: 1,
-    bookingCode: "SB1001",
+    bookingCode: "SBK-2026-001",
     userId: 1,
     flightId: 1,
-    passengerName: "John Doe",
-    status: "Confirmed",
-    createdAt: new Date().toISOString()
+    seatNumber: "12A",
+    passengerName: "SkyBook Admin",
+    passengerEmail: "admin@skybook.com",
+    phone: "",
+    passengerClass: "economy",
+    passengerCount: 1,
+    subtotal: 4200,
+    taxes: 504,
+    totalAmount: 4704,
+    bookedAt: new Date().toISOString(),
+    status: "Booked",
+    flightSnapshot: {
+      flightNumber: "ELA101",
+      airline: "Elite Airways",
+      origin: "Cagayan de Oro (CGY)",
+      destination: "Manila (MNL)",
+      departureTime: "2026-05-01T08:00:00",
+      arrivalTime: "2026-05-01T09:30:00",
+      aircraftType: "Airbus A320",
+      image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05",
+      price: 4200
+    }
+  },
+  {
+    id: 2,
+    bookingCode: "SBK-2026-002",
+    userId: 1,
+    flightId: 2,
+    seatNumber: "3C",
+    passengerName: "SkyBook Admin",
+    passengerEmail: "admin@skybook.com",
+    phone: "",
+    passengerClass: "business",
+    passengerCount: 2,
+    subtotal: 11200,
+    taxes: 1344,
+    totalAmount: 12544,
+    bookedAt: new Date().toISOString(),
+    status: "Booked",
+    flightSnapshot: {
+      flightNumber: "ELA202",
+      airline: "Elite Airways",
+      origin: "Manila (MNL)",
+      destination: "Cebu (CEB)",
+      departureTime: "2026-05-02T14:00:00",
+      arrivalTime: "2026-05-02T15:20:00",
+      aircraftType: "Boeing 737",
+      image: "https://images.unsplash.com/photo-1494412574643-ff4e4f5c9b06",
+      price: 3500
+    }
   }
 ];
 
