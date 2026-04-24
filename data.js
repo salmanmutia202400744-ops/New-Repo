@@ -117,11 +117,4 @@ const bookings = [
   }
 ];
 
-const sessions = [];
-
-module.exports = {
-  users,
-  flights,
-  bookings,
-  sessions
-};
+module.exports = { users, flights, bookings };
