@@ -10,6 +10,7 @@ app.use("/api/users", require("./routes/users"));
 app.use("/api/flights", require("./routes/flights"));
 app.use("/api/bookings", require("./routes/bookings"));
 
+
 app.get("/", (req, res) => {
     res.json({
         message: "SkyBook API Running"
