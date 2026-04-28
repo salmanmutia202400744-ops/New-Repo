@@ -10,15 +10,14 @@ router.get("/", (req, res) => {
 });
 
 // ==========================
-// CREATE BOOKING (ROBUST VERSION)..
+// CREATE BOOKING (ROBUST VERSION)
 // ==========================
 router.post("/", (req, res) => {
 
     const newId = bookings.length + 1;
     const now = new Date();
 
-    // 🔥 GET REAL FLIGHT FROM ID (SOURCE OF TRUTH)
-    const flightData = flights.find(f => f.id == req.body.flightId) || {};
+    const flight = req.body.flightSnapshot || {};
 
     const booking = {
         id: newId,
@@ -36,12 +35,11 @@ router.post("/", (req, res) => {
 
         flightId: req.body.flightId || null,
 
-        // ✅ FIXED SNAPSHOT (NO MORE N/A ISSUES)
+        // ✅ ALWAYS SAFE STRUCTURE (prevents undefined/N/A issues)
         flightSnapshot: {
-            flightNumber: flightData.flightNumber || "N/A",
-            origin: flightData.origin || "N/A",
-            destination: flightData.destination || "N/A",
-            airline: flightData.airline || "N/A"
+            flightNumber: flight.flightNumber || "N/A",
+            origin: flight.origin || "N/A",
+            destination: flight.destination || "N/A"
         },
 
         seatNumber: req.body.seatNumber || "Not Assigned",
