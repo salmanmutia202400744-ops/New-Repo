@@ -9,13 +9,15 @@ router.get("/", (req, res) => {
     res.json(bookings);
 });
 router.get("/my", (req, res) => {
-    const userId = req.headers["user-id"];
+    const userId = Number(req.headers["user-id"]);
 
     if (!userId) {
         return res.status(400).json({ message: "User ID required" });
     }
 
-    const userBookings = bookings.filter(b => b.userId == userId);
+    const userBookings = bookings.filter(
+        b => Number(b.userId) === userId
+    );
 
     res.json(userBookings);
 });
