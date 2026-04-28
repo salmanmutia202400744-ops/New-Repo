@@ -3,6 +3,9 @@ const cors = require("cors");
 
 const app = express();
 const bookingRoutes = require("./routes/bookings");
+const dashboardRoutes = require("./routes/dashboard");
+
+app.use("/api/dashboard", dashboardRoutes);
 
 app.use(cors());
 app.use(express.json());
