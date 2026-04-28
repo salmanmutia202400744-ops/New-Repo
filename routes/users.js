@@ -56,6 +56,24 @@ router.post("/login", (req, res) => {
 
 });
 
+// ==========================
+// GET CURRENT USER
+// ==========================
+router.get("/me", (req, res) => {
+    const userId = req.headers["user-id"];
+
+    if (!userId) {
+        return res.status(400).json({ message: "User ID required" });
+    }
+
+    const user = users.find(u => u.id == userId);
+
+    if (!user) {
+        return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(user);
+});
 
 // GET USERS
 router.get("/", (req, res) => {
