@@ -10,43 +10,59 @@ router.get("/", (req, res) => {
 });
 
 // ==========================
-// CREATE BOOKING (FIXED)
+// CREATE BOOKING (FIXED & SAFE)
 // ==========================
 router.post("/", (req, res) => {
 
-    const booking = {
-        id: bookings.length + 1,
+    const newId = bookings.length + 1;
 
-        // ✅ AUTO-GENERATED FIELDS
-        bookingCode: `SBK-${Date.now()}`,   // or simple unique code
+    const booking = {
+        id: newId,
+
+        // ==========================
+        // CLEAN BOOKING CODE (FIXED FORMAT)
+        // ==========================
+        bookingCode: `SBK-${new Date().getFullYear()}-${String(newId).padStart(3, "0")}`,
+
         bookedAt: new Date().toISOString(),
         status: "Booked",
 
         // ==========================
-        // USER DATA FROM FRONTEND
+        // USER INFO (SAFE DEFAULTS)
         // ==========================
-        userId: req.body.userId,
+        userId: req.body.userId || null,
         passengerName: req.body.passengerName || "Unknown",
         passengerEmail: req.body.passengerEmail || "",
         phone: req.body.phone || "",
 
         // ==========================
-        // FLIGHT DATA
+        // FLIGHT INFO (FIXED STRUCTURE)
         // ==========================
-        flightId: req.body.flightId,
-        flightSnapshot: req.body.flightSnapshot || null,
+        flightId: req.body.flightId || null,
+
+        flightSnapshot: req.body.flightSnapshot
+            ? {
+                flightNumber: req.body.flightSnapshot.flightNumber || "N/A",
+                origin: req.body.flightSnapshot.origin || "",
+                destination: req.body.flightSnapshot.destination || ""
+            }
+            : {
+                flightNumber: "N/A",
+                origin: "",
+                destination: ""
+            },
 
         // ==========================
-        // OPTIONAL
+        // OPTIONAL DATA
         // ==========================
-        seatNumber: req.body.seatNumber || null,
+        seatNumber: req.body.seatNumber || "Not Assigned",
         passengerClass: req.body.passengerClass || "Economy",
-        totalAmount: req.body.totalAmount || 0
+        totalAmount: Number(req.body.totalAmount) || 0
     };
 
     bookings.push(booking);
 
-    res.json(booking);
+    res.status(201).json(booking);
 });
 
 module.exports = router;
