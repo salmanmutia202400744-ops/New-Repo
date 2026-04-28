@@ -89,4 +89,27 @@ router.delete("/:id", (req, res) => {
     res.json({ message: "Booking cancelled successfully" });
 });
 
+router.patch("/:id/cancel", (req, res) => {
+    const id = Number(req.params.id);
+
+    const booking = bookings.find(b => b.id === id);
+
+    if (!booking) {
+        return res.status(404).json({ message: "Booking not found" });
+    }
+
+    // ❌ already cancelled
+    if (booking.status === "Cancelled") {
+        return res.status(400).json({ message: "Already cancelled" });
+    }
+
+    booking.status = "Cancelled";
+    booking.refunded = true; // ✅ new field
+
+    res.json({
+        message: "Booking cancelled and refunded",
+        booking
+    });
+});
+
 module.exports = router;
