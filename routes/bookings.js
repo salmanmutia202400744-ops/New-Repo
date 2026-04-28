@@ -10,51 +10,38 @@ router.get("/", (req, res) => {
 });
 
 // ==========================
-// CREATE BOOKING (FIXED & SAFE)
+// CREATE BOOKING (ROBUST VERSION)
 // ==========================
 router.post("/", (req, res) => {
 
     const newId = bookings.length + 1;
+    const now = new Date();
+
+    const flight = req.body.flightSnapshot || {};
 
     const booking = {
         id: newId,
 
-        // ==========================
-        // CLEAN BOOKING CODE (FIXED FORMAT)
-        // ==========================
-        bookingCode: `SBK-${new Date().getFullYear()}-${String(newId).padStart(3, "0")}`,
+        bookingCode:
+            "SBK-" + now.getFullYear() + "-" + String(newId).padStart(3, "0"),
 
-        bookedAt: new Date().toISOString(),
+        bookedAt: now.toISOString(),
         status: "Booked",
 
-        // ==========================
-        // USER INFO (SAFE DEFAULTS)
-        // ==========================
         userId: req.body.userId || null,
         passengerName: req.body.passengerName || "Unknown",
         passengerEmail: req.body.passengerEmail || "",
         phone: req.body.phone || "",
 
-        // ==========================
-        // FLIGHT INFO (FIXED STRUCTURE)
-        // ==========================
         flightId: req.body.flightId || null,
 
-        flightSnapshot: req.body.flightSnapshot
-            ? {
-                flightNumber: req.body.flightSnapshot.flightNumber || "N/A",
-                origin: req.body.flightSnapshot.origin || "",
-                destination: req.body.flightSnapshot.destination || ""
-            }
-            : {
-                flightNumber: "N/A",
-                origin: "",
-                destination: ""
-            },
+        // ✅ ALWAYS SAFE STRUCTURE (prevents undefined/N/A issues)
+        flightSnapshot: {
+            flightNumber: flight.flightNumber || "N/A",
+            origin: flight.origin || "N/A",
+            destination: flight.destination || "N/A"
+        },
 
-        // ==========================
-        // OPTIONAL DATA
-        // ==========================
         seatNumber: req.body.seatNumber || "Not Assigned",
         passengerClass: req.body.passengerClass || "Economy",
         totalAmount: Number(req.body.totalAmount) || 0
