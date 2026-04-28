@@ -86,7 +86,7 @@ router.delete("/:id", (req, res) => {
 
     bookings.splice(index, 1);
 
-    res.json({ message: "Booking cancelled" });
+    res.json({ message: "Booking cancelled successfully" });
 });
 
 module.exports = router;
