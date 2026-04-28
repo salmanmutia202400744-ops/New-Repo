@@ -13,7 +13,9 @@ const users = [
     password: "admin123",
     role: "admin",
     phone: "",
+    image: "", // ✅ PROFILE IMAGE SUPPORT
     createdAt: now(),
+    updatedAt: now()
   },
 ];
 
