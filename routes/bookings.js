@@ -75,4 +75,18 @@ router.post("/", (req, res) => {
     res.status(201).json(booking);
 });
 
+router.delete("/:id", (req, res) => {
+    const id = Number(req.params.id);
+
+    const index = bookings.findIndex(b => b.id === id);
+
+    if (index === -1) {
+        return res.status(404).json({ message: "Booking not found" });
+    }
+
+    bookings.splice(index, 1);
+
+    res.json({ message: "Booking cancelled" });
+});
+
 module.exports = router;
