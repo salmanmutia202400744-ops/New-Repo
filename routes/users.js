@@ -100,4 +100,22 @@ router.put("/:id", (req, res) => {
     res.json(users[index]);
 });
 
+router.put("/:id", (req, res) => {
+    const index = users.findIndex(u => u.id == req.params.id);
+
+    if (index === -1) {
+        return res.status(404).json({ message: "User not found" });
+    }
+
+    users[index] = {
+        ...users[index],
+        ...req.body
+    };
+
+    res.json({
+        message: "User updated successfully",
+        user: users[index]
+    });
+});
+
 module.exports = router;
