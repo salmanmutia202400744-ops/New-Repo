@@ -10,7 +10,7 @@ router.get("/", (req, res) => {
 });
 
 // ==========================
-// CREATE BOOKING (ROBUST VERSION)
+// CREATE BOOKING (ROBUST VERSION)..
 // ==========================
 router.post("/", (req, res) => {
 
