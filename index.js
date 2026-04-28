@@ -2,10 +2,11 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
+const bookingRoutes = require("./routes/bookings");
 
 app.use(cors());
 app.use(express.json());
-
+app.use("/api/bookings", bookingRoutes);
 app.use("/api/users", require("./routes/users"));
 app.use("/api/flights", require("./routes/flights"));
 app.use("/api/bookings", require("./routes/bookings"));
