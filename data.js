@@ -9,7 +9,7 @@ const users = [
   {
     id: 1,
     name: "SkyBook Admin",
-    email: "admin@skybook.com",
+    email: "admin@eliteairways.com",
     password: "admin123",
     role: "admin",
     phone: "",

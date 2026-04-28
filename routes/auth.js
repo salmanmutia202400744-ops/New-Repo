@@ -1,10 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-const { users, sessions } = require("../data");
-const { issueTokenForUser } = require("../middleware/auth");
+const { users } = require("../data");
 
-// LOGIN
 router.post("/login", (req, res) => {
     const { email, password } = req.body;
 
@@ -16,10 +14,8 @@ router.post("/login", (req, res) => {
         return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    const token = issueTokenForUser(user);
-
     res.json({
-        token,
+        message: "Login success",
         user: {
             id: user.id,
             name: user.name,

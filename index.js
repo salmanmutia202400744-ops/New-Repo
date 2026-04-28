@@ -13,7 +13,7 @@ app.use("/api/bookings", require("./routes/bookings"));
 
 app.get("/", (req, res) => {
     res.json({
-        message: "SkyBook API Running"
+        message: "Elite Airways API Running"
     });
 });
 

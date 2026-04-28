@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const { users, flights, bookings } = require("../data");
-const { authenticateToken, requireAdmin } = require("../middleware/auth");
 
 function getDashboardStats() {
     const cancelled = bookings.filter(
@@ -27,11 +26,12 @@ function getDashboardStats() {
     };
 }
 
-router.get("/", authenticateToken, requireAdmin, (req, res) => {
+// ✅ NO AUTH HERE
+router.get("/", (req, res) => {
     res.json(getDashboardStats());
 });
 
-router.get("/stats", authenticateToken, requireAdmin, (req, res) => {
+router.get("/stats", (req, res) => {
     res.json(getDashboardStats());
 });
 
