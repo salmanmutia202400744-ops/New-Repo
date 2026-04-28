@@ -3,11 +3,16 @@ const router = express.Router();
 const { bookings } = require("../data");
 
 // ==========================
-// GET ALL BOOKINGS
+// GET ALL BOOKINGS (ADMIN / DEBUG)
 // ==========================
 router.get("/", (req, res) => {
     res.json(bookings);
 });
+
+
+// ==========================
+// GET USER BOOKINGS (PROFILE)
+// ==========================
 router.get("/my", (req, res) => {
     const userId = Number(req.headers["user-id"]);
 
@@ -22,8 +27,9 @@ router.get("/my", (req, res) => {
     res.json(userBookings);
 });
 
+
 // ==========================
-// CREATE BOOKING (ROBUST VERSION)
+// CREATE BOOKING
 // ==========================
 router.post("/", (req, res) => {
 
@@ -36,19 +42,21 @@ router.post("/", (req, res) => {
         id: newId,
 
         bookingCode:
-            "SBK-" + now.getFullYear() + "-" + String(newId).padStart(3, "0"),
+            `SBK-${now.getFullYear()}-${String(newId).padStart(3, "0")}`,
 
         bookedAt: now.toISOString(),
         status: "Booked",
 
-        userId: req.body.userId || null,
+        // ✅ FIX: force number type
+        userId: Number(req.body.userId) || null,
+
         passengerName: req.body.passengerName || "Unknown",
         passengerEmail: req.body.passengerEmail || "",
         phone: req.body.phone || "",
 
         flightId: req.body.flightId || null,
 
-        // ✅ ALWAYS SAFE STRUCTURE (prevents undefined/N/A issues)
+        // snapshot safe fallback
         flightSnapshot: {
             flightNumber: flight.flightNumber || "N/A",
             origin: flight.origin || "N/A",
@@ -57,6 +65,8 @@ router.post("/", (req, res) => {
 
         seatNumber: req.body.seatNumber || "Not Assigned",
         passengerClass: req.body.passengerClass || "Economy",
+
+        // ensure numeric value
         totalAmount: Number(req.body.totalAmount) || 0
     };
 
