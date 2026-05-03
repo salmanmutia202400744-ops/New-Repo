@@ -2,23 +2,47 @@ const express = require("express");
 const router = express.Router();
 const { flights } = require("../data");
 
-// GET ALL
+// ==========================
+// GET ALL FLIGHTS
+// ==========================
 router.get("/", (req, res) => {
     res.json(flights);
 });
 
-// ADD FLIGHT
+// ==========================
+// ADD FLIGHT (SAFE VERSION)
+// ==========================
 router.post("/", (req, res) => {
     const flight = {
         id: flights.length + 1,
-        ...req.body
+
+        flightNumber: req.body.flightNumber || "N/A",
+        airline: req.body.airline || "Elite Airways",
+        origin: req.body.origin || "",
+        destination: req.body.destination || "",
+        departureTime: req.body.departureTime || "",
+        arrivalTime: req.body.arrivalTime || "",
+
+        // ✅ IMPORTANT: ensure numeric + default value
+        availableSeats: Number(req.body.availableSeats) || 0,
+
+        price: Number(req.body.price) || 0,
+
+        image: req.body.image || "",
+        status: req.body.status || "scheduled",
+        aircraftType: req.body.aircraftType || "",
+
+        createdAt: new Date().toISOString()
     };
 
     flights.push(flight);
-    res.json(flight);
+
+    res.status(201).json(flight);
 });
 
-// GET ONE
+// ==========================
+// GET ONE FLIGHT
+// ==========================
 router.get("/:id", (req, res) => {
     const flight = flights.find(f => f.id == req.params.id);
 
@@ -29,7 +53,9 @@ router.get("/:id", (req, res) => {
     res.json(flight);
 });
 
-// ✅ UPDATE FLIGHT (FIX EDIT)
+// ==========================
+// UPDATE FLIGHT
+// ==========================
 router.put("/:id", (req, res) => {
     const index = flights.findIndex(f => f.id == req.params.id);
 
@@ -42,10 +68,15 @@ router.put("/:id", (req, res) => {
         ...req.body
     };
 
-    res.json(flights[index]);
+    res.json({
+        message: "Flight updated",
+        flight: flights[index]
+    });
 });
 
-// ✅ DELETE FLIGHT (FIX DELETE)
+// ==========================
+// DELETE FLIGHT
+// ==========================
 router.delete("/:id", (req, res) => {
     const index = flights.findIndex(f => f.id == req.params.id);
 
