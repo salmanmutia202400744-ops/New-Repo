@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const { bookings } = require("../data");
 const { bookings, flights } = require("../data");
 
 // ==========================

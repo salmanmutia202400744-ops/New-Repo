@@ -80,26 +80,6 @@ router.get("/me", (req, res) => {
     res.json(user);
 });
 
-// GET USERS
-router.get("/", (req, res) => {
-    res.json(users);
-});
-router.put("/:id", (req, res) => {
-    const index = users.findIndex(u => u.id == req.params.id);
-
-    if (index === -1) {
-        return res.status(404).json({ message: "User not found" });
-    }
-
-    users[index] = {
-        ...users[index],
-        ...req.body,
-        updatedAt: new Date().toISOString()
-    };
-
-    res.json(users[index]);
-});
-
 router.put("/:id", (req, res) => {
     const index = users.findIndex(u => u.id == req.params.id);
 
