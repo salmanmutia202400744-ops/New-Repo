@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { bookings, flights } = require("../data");
+const { bookings } = require("../data");
 
 // ==========================
 // GET ALL BOOKINGS (ADMIN / DEBUG)
@@ -75,27 +75,17 @@ router.post("/", (req, res) => {
     res.status(201).json(booking);
 });
 
-router.patch("/:id/cancel", (req, res) => {
+router.delete("/:id", (req, res) => {
     const id = Number(req.params.id);
 
-    const booking = bookings.find(b => b.id === id);
+    const index = bookings.findIndex(b => b.id === id);
 
-    if (!booking) {
+    if (index === -1) {
         return res.status(404).json({ message: "Booking not found" });
     }
 
-    if (booking.status === "Cancelled") {
-        return res.status(400).json({ message: "Already cancelled" });
-    }
+    bookings.splice(index, 1);
 
-    // ✅ RESTORE SEAT
-    const flight = flights.find(f => f.id === booking.flightId);
-    if (flight) {
-        flight.availableSeats += 1;
-    }
-
-    booking.status = "Cancelled";
-
-    res.json({ message: "Cancelled", booking });
+    res.json({ message: "Booking cancelled successfully" });
 });
 module.exports = router;
